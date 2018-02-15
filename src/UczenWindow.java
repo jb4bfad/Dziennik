@@ -1,3 +1,7 @@
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +13,65 @@
  * @author Janusz
  */
 public class UczenWindow extends javax.swing.JFrame {
-
+    LogWindow.DB db;
+    String queryString;
+    Statement statement;
+    ResultSet rs ;
+    int columny=1, idUcznia;
+    boolean isCheck=true;
+    
+    
+public void odswiez(){
+    System.out.print(idUcznia);
+    try{
+        statement =db.conn.createStatement();
+        queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
+        rs = statement.executeQuery(queryString);
+        rs.next();
+        NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+        NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+        //NazwaField.setText("IISs");
+       
+        
+        statement =db.conn.createStatement();
+        int i=0;
+        queryString = "select IDPrzedmiotu, Nazwa from Przedmioty";
+        rs = statement.executeQuery(queryString);
+//        for(i=0;i<tabelaUczen.getRowCount();i++) {
+//            tabelaUczen.getModel().setValueAt(null, i, columny);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+1);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+2);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+3);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+4);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+5);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+6);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+7);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+8);
+//            tabelaUczen.getModel().setValueAt(null, i, columny+9);
+//            
+//            
+//        }
+        i=0;
+        while (rs.next()) {
+            tabelaUczen.getModel().setValueAt(rs.getString("Nazwa"), i, columny-1);
+           
+                            Statement statement2 =db.conn.createStatement();
+                            //System.out.println("id= "+ rs.getString("ID")+"IDP="+  (wybierzPrzedmiot.getSelectedIndex()+1) );
+                            String queryString2 = "select Ocena from Oceny where IDUczen="+idUcznia+" and IDPrzedmiot="+rs.getString("IDPrzedmiotu");
+                            ResultSet rs2 = statement2.executeQuery(queryString2);
+                            int j=0;
+                            while (rs2.next()) {
+                                tabelaUczen.getModel().setValueAt(rs2.getString("Ocena"), i, columny+j);
+                                j++;
+                             }
+        i++;
+        }
+        
+        
+    }catch(Exception e){
+            e.printStackTrace();
+     }
+    }
     /**
      * Creates new form UczenWindow
      */
@@ -26,21 +88,145 @@ public class UczenWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        OcenyWindow = new javax.swing.JFrame();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaUczen = new javax.swing.JTable();
+        NazwaLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        NazwaUcznia = new javax.swing.JLabel();
+        NieobecnosciButton = new javax.swing.JButton();
+        OcenyButton = new javax.swing.JButton();
+        NazwaLabel = new javax.swing.JLabel();
+
+        OcenyWindow.setSize(new java.awt.Dimension(1050, 215));
+
+        tabelaUczen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Przedmiot", "Ocena 1", "Ocena 2", "Ocena 3", "Ocena 4", "Ocena 5", "Ocena 6", "Ocena 7", "Ocena 8", "Ocena 9", "Ocena 10"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelaUczen.setToolTipText("");
+        jScrollPane1.setViewportView(tabelaUczen);
+
+        NazwaLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        NazwaLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Uczeń:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setText("Wykaz Ocen");
+
+        javax.swing.GroupLayout OcenyWindowLayout = new javax.swing.GroupLayout(OcenyWindow.getContentPane());
+        OcenyWindow.getContentPane().setLayout(OcenyWindowLayout);
+        OcenyWindowLayout.setHorizontalGroup(
+            OcenyWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OcenyWindowLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1068, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(OcenyWindowLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NazwaLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        OcenyWindowLayout.setVerticalGroup(
+            OcenyWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OcenyWindowLayout.createSequentialGroup()
+                .addGroup(OcenyWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OcenyWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel1)
+                        .addComponent(NazwaLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OcenyWindowLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        NazwaUcznia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        NazwaUcznia.setText("Panel Rodzica");
+
+        NieobecnosciButton.setText("Nieobecności");
+
+        OcenyButton.setText("Oceny");
+        OcenyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OcenyButtonActionPerformed(evt);
+            }
+        });
+
+        NazwaLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        NazwaLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(OcenyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NazwaUcznia, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(NieobecnosciButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(NazwaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NazwaUcznia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NazwaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OcenyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NieobecnosciButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void OcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OcenyButtonActionPerformed
+        // TODO add your handling code here:
+        OcenyWindow.setVisible(true);
+        
+    }//GEN-LAST:event_OcenyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +264,15 @@ public class UczenWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel NazwaLabel;
+    private javax.swing.JLabel NazwaLabel2;
+    private javax.swing.JLabel NazwaUcznia;
+    private javax.swing.JButton NieobecnosciButton;
+    private javax.swing.JButton OcenyButton;
+    private javax.swing.JFrame OcenyWindow;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabelaUczen;
     // End of variables declaration//GEN-END:variables
 }

@@ -49,7 +49,7 @@ public void odswiez(){
             tabelaNauczyciel.getModel().setValueAt(rs.getString("Nazwisko"), i, columny+1);
                             Statement statement2 =db.conn.createStatement();
                             //System.out.println("id= "+ rs.getString("ID")+"IDP="+  (wybierzPrzedmiot.getSelectedIndex()+1) );
-                            String queryString2 = "select Ocena from Oceny where IDUcznen="+rs.getString("ID")+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
+                            String queryString2 = "select Ocena from Oceny where IDUczen="+rs.getString("ID")+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
                             ResultSet rs2 = statement2.executeQuery(queryString2);
                             int j=0;
                             while (rs2.next()) {
@@ -100,7 +100,7 @@ public void odswiez(){
         ocenyButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        OcenyWindow.setSize(new java.awt.Dimension(900, 335));
+        OcenyWindow.setSize(new java.awt.Dimension(1000, 335));
 
         tabelaNauczyciel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,7 +136,7 @@ public void odswiez(){
         jScrollPane1.setViewportView(tabelaNauczyciel);
 
         wybierzPrzedmiot.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        wybierzPrzedmiot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matematyka", "Język polski", "Język angielski" }));
+        wybierzPrzedmiot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matematyka", "Język polski", "Język angielski", "Informatyka", "Chemia", "Biologia" }));
         wybierzPrzedmiot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 wybierzPrzedmiotActionPerformed(evt);
@@ -181,7 +181,7 @@ public void odswiez(){
                         .addGap(41, 41, 41)
                         .addComponent(EdytujOcenyButton)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                     .addGroup(OcenyWindowLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(90, 90, 90)
@@ -338,8 +338,8 @@ public void odswiez(){
 
     private void ocenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ocenyButtonActionPerformed
         // TODO add your handling code here:
-        tabelaNauczyciel.getColumnModel().getColumn(0).setPreferredWidth(70);
-        tabelaNauczyciel.getColumnModel().getColumn(1).setPreferredWidth(70);
+        tabelaNauczyciel.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tabelaNauczyciel.getColumnModel().getColumn(1).setPreferredWidth(50);
         tabelaNauczyciel.getColumnModel().getColumn(2).setPreferredWidth(110);
         tabelaNauczyciel.getColumnModel().getColumn(3).setPreferredWidth(110);
         OcenyWindow.setVisible(true);
@@ -398,7 +398,7 @@ public void odswiez(){
 
                      int a=0;
                      a= Integer.parseInt(rs1.getString("ID"))+1;
-                     queryString = "INSERT INTO Oceny (ID, IDUcznen, IDPrzedmiot, Ocena) VALUES ("
+                     queryString = "INSERT INTO Oceny (ID, IDUczen, IDPrzedmiot, Ocena) VALUES ("
                              +a+","
                              + TabelaDodajOceny.getModel().getValueAt(i, 0)+","
                              + (wybierzPrzedmiot.getSelectedIndex()+1)+",'"
@@ -433,7 +433,7 @@ public void odswiez(){
        try{
         Statement statement2 =db.conn.createStatement(); 
       for(int i=0; i<tabelaNauczyciel.getRowCount();i++){
-        String queryString2 = "select ID, Ocena from Oceny where IDUcznen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
+        String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
         ResultSet rs2 = statement2.executeQuery(queryString2);
         
             

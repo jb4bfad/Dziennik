@@ -17,36 +17,32 @@ import javax.swing.JTable;
  */
 public class LogWindow extends javax.swing.JFrame {
     boolean isError=false;
+    int idUcznia;
 class DB{
     Connection conn ;
 public DB() {}
 
-Statement statement;
+        Statement statement;
 
-public void refresh(JTable tabelaNauczyciel, int columny){
-    System.out.println("pozycja2");
+     public void dbConnect(String db_connect_string, String db_userid, String db_password)
+     {
+     try
+     {
+         isError=false;
+             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+             conn = DriverManager.getConnection(db_connect_string, db_userid, db_password);
+             System.out.println("connected");
+             statement = conn.createStatement();
 
-}
-    
-public void dbConnect(String db_connect_string, String db_userid, String db_password)
-{
-try
-{
-    isError=false;
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        conn = DriverManager.getConnection(db_connect_string, db_userid, db_password);
-        System.out.println("connected");
-        statement = conn.createStatement();
-  
- 
-}
-catch (Exception e)
-{
-    isError=true;
-    alert.setText(e.getMessage());
-    e.printStackTrace();
-}
-}
+
+     }
+     catch (Exception e)
+     {
+         isError=true;
+         alert.setText(e.getMessage());
+         e.printStackTrace();
+     }
+     }
 };
 
     /**
@@ -70,10 +66,10 @@ catch (Exception e)
         jLabel1 = new javax.swing.JLabel();
         LogUczenButton = new javax.swing.JButton();
         LogNauczycielButton = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        LogUcznia = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        hasloUcznia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         LogNauczyciel = new javax.swing.JTextField();
@@ -106,6 +102,11 @@ catch (Exception e)
         jLabel1.setText("Logowanie");
 
         LogUczenButton.setText("Zaloguj się");
+        LogUczenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogUczenButtonActionPerformed(evt);
+            }
+        });
 
         LogNauczycielButton.setText("Zaloguj się");
         LogNauczycielButton.setToolTipText("");
@@ -115,13 +116,18 @@ catch (Exception e)
             }
         });
 
-        jTextField1.setText("boniek");
+        LogUcznia.setText("1");
+        LogUcznia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogUczniaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Login:");
 
         jLabel3.setText("Hasło");
 
-        jTextField2.setText("dziennik123");
+        hasloUcznia.setText("dziennik123");
 
         jLabel4.setText("Login:");
 
@@ -138,7 +144,7 @@ catch (Exception e)
 
         jLabel6.setBackground(new java.awt.Color(153, 153, 153));
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Uczeń");
+        jLabel6.setText("Rodzic");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Nauczyciel");
@@ -154,8 +160,8 @@ catch (Exception e)
                     .addComponent(LogUczenButton)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                    .addComponent(LogUcznia)
+                    .addComponent(hasloUcznia, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LogNauczycielButton)
@@ -167,7 +173,7 @@ catch (Exception e)
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(80, 80, 80))
         );
@@ -186,7 +192,7 @@ catch (Exception e)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LogUcznia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LogNauczyciel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -194,7 +200,7 @@ catch (Exception e)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hasloUcznia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(HasloNauczyciel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -225,6 +231,29 @@ catch (Exception e)
             this.dispose();
         }
     }//GEN-LAST:event_LogNauczycielButtonActionPerformed
+
+    private void LogUczniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogUczniaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LogUczniaActionPerformed
+
+    private void LogUczenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogUczenButtonActionPerformed
+        // TODO add your handling code here:
+        DB db = new DB();
+        db.dbConnect("jdbc:sqlserver://localhost:1433;databaseName=dziennik;selectMethod=cursor","Uczen1", "dziennik123");
+        if(isError){
+            alertWindow.setVisible(true);
+            this.setEnabled(false);
+        }else{
+            UczenWindow uw = new UczenWindow();
+            uw.setVisible(true);
+            uw.db = db;
+            uw.idUcznia=Integer.parseInt(LogUcznia.getText());
+            uw.odswiez();
+            //uw.setidUcznia(Integer.parseInt(LogUcznia.getText()));
+            
+            this.dispose();
+        }
+    }//GEN-LAST:event_LogUczenButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,8 +295,10 @@ catch (Exception e)
     private javax.swing.JTextField LogNauczyciel;
     private javax.swing.JButton LogNauczycielButton;
     private javax.swing.JButton LogUczenButton;
+    private javax.swing.JTextField LogUcznia;
     private javax.swing.JLabel alert;
     private javax.swing.JFrame alertWindow;
+    private javax.swing.JTextField hasloUcznia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -275,7 +306,5 @@ catch (Exception e)
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
