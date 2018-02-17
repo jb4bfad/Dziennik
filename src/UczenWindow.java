@@ -99,7 +99,7 @@ public void odswiez(){
         OcenyButton = new javax.swing.JButton();
         NazwaLabel = new javax.swing.JLabel();
 
-        OcenyWindow.setSize(new java.awt.Dimension(1050, 215));
+        OcenyWindow.setSize(new java.awt.Dimension(1050, 250));
 
         tabelaUczen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,9 +166,9 @@ public void odswiez(){
                     .addGroup(OcenyWindowLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(36, 36, 36))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

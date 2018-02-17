@@ -5,7 +5,7 @@
     <Container class="javax.swing.JFrame" name="OcenyWindow">
       <Properties>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[1050, 215]"/>
+          <Dimension value="[1050, 250]"/>
         </Property>
       </Properties>
 
@@ -39,9 +39,9 @@
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="27" max="32767" attributes="0"/>
+                  <EmptySpace pref="47" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="123" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

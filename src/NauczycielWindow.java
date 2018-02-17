@@ -91,6 +91,7 @@ public void odswiez(){
         OdswiezOcenyButton = new javax.swing.JButton();
         DodajOceneButton = new javax.swing.JButton();
         EdytujOcenyButton = new javax.swing.JButton();
+        UsunButton = new javax.swing.JButton();
         DodajOcenyWindow = new javax.swing.JFrame();
         jScrollPane2 = new javax.swing.JScrollPane();
         TabelaDodajOceny = new javax.swing.JTable();
@@ -167,6 +168,13 @@ public void odswiez(){
             }
         });
 
+        UsunButton.setText("Usuń");
+        UsunButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsunButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OcenyWindowLayout = new javax.swing.GroupLayout(OcenyWindow.getContentPane());
         OcenyWindow.getContentPane().setLayout(OcenyWindowLayout);
         OcenyWindowLayout.setHorizontalGroup(
@@ -180,6 +188,8 @@ public void odswiez(){
                         .addComponent(DodajOceneButton)
                         .addGap(41, 41, 41)
                         .addComponent(EdytujOcenyButton)
+                        .addGap(43, 43, 43)
+                        .addComponent(UsunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                     .addGroup(OcenyWindowLayout.createSequentialGroup()
@@ -201,11 +211,17 @@ public void odswiez(){
                 .addGroup(OcenyWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(OdswiezOcenyButton)
                     .addComponent(DodajOceneButton)
-                    .addComponent(EdytujOcenyButton))
+                    .addComponent(EdytujOcenyButton)
+                    .addComponent(UsunButton))
                 .addContainerGap())
         );
 
         DodajOcenyWindow.setSize(new java.awt.Dimension(400, 320));
+        DodajOcenyWindow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DodajOcenyWindowMouseClicked(evt);
+            }
+        });
 
         TabelaDodajOceny.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -430,35 +446,58 @@ public void odswiez(){
 
     private void EdytujOcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EdytujOcenyButtonActionPerformed
        //  TODO add your handling code here:
-       try{
-        Statement statement2 =db.conn.createStatement(); 
-      for(int i=0; i<tabelaNauczyciel.getRowCount();i++){
-        String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
-        ResultSet rs2 = statement2.executeQuery(queryString2);
-        
-            
-            
-            int j=0;
-            while (rs2.next()) {
-                //tabelaNauczyciel.getModel().setValueAt(rs2.getString("Ocena"), i, columny+2+j);
-                
-                if(tabelaNauczyciel.getModel().getValueAt(i, 1)!=null && tabelaNauczyciel.getModel().getValueAt(i, 1)!=null){
-
-                        queryString = "UPDATE Oceny SET Ocena = '"
-                                +tabelaNauczyciel.getModel().getValueAt(i,columny+2+j)+"' WHERE ID="
-                                +rs2.getString("ID");
-                        db.statement.executeUpdate(queryString);
-
-                }   
-            j++;
-            }
+    try{
+          Statement statement2 =db.conn.createStatement(); 
+          for(int i=0; i<tabelaNauczyciel.getRowCount();i++){
+            String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
+            ResultSet rs2 = statement2.executeQuery(queryString2);
+                int j=0;
+                while (rs2.next()) {
+                    if(tabelaNauczyciel.getModel().getValueAt(i, 1)!=null ){
+                            queryString = "UPDATE Oceny SET Ocena = '"
+                                    +tabelaNauczyciel.getModel().getValueAt(i,columny+2+j)+"' WHERE ID="
+                                    +rs2.getString("ID");
+                            db.statement.executeUpdate(queryString);
+                    }   
+                j++;
+                }
             tabelaNauczyciel.getModel().setValueAt(false, i, 1);
-        }
-               }catch(Exception e){
-                    e.printStackTrace();
-                } 
+          }
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
         this.odswiez();
     }//GEN-LAST:event_EdytujOcenyButtonActionPerformed
+
+    private void DodajOcenyWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DodajOcenyWindowMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DodajOcenyWindowMouseClicked
+
+    private void UsunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsunButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+          Statement statement2 =db.conn.createStatement(); 
+          for(int i=0; i<tabelaNauczyciel.getRowCount();i++){
+            String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
+            ResultSet rs2 = statement2.executeQuery(queryString2);
+                int j=0;
+                while (rs2.next()) {
+                     //System.out.println(tabelaNauczyciel.getModel().getValueAt(i, columny+2+j).toString());
+//                    if(Integer.parseInt(tabelaNauczyciel.getModel().getValueAt(i, columny+2+j).toString())==8)
+//                        System.out.println(tabelaNauczyciel.getModel().getValueAt(i, columny+2+j).toString());
+                    if(tabelaNauczyciel.getModel().getValueAt(i, columny+2+j).equals("")) {
+//                        System.out.println("asdsa");
+                            queryString = "DELETE FROM Oceny WHERE ID="+rs2.getString("ID");        
+                            db.statement.executeUpdate(queryString);
+                    }   
+                    j++;
+                }
+          }
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        this.odswiez();    
+    }//GEN-LAST:event_UsunButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -503,6 +542,7 @@ public void odswiez(){
     private javax.swing.JFrame OcenyWindow;
     private javax.swing.JButton OdswiezOcenyButton;
     private javax.swing.JTable TabelaDodajOceny;
+    private javax.swing.JButton UsunButton;
     private javax.swing.JButton ZapiszOceneButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
