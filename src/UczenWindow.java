@@ -22,52 +22,15 @@ public class UczenWindow extends javax.swing.JFrame {
     
     
 public void odswiez(){
-    System.out.print(idUcznia);
-    try{
+         try{
         statement =db.conn.createStatement();
         queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
         rs = statement.executeQuery(queryString);
         rs.next();
         NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
         NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-        //NazwaField.setText("IISs");
-       
-        
-        statement =db.conn.createStatement();
-        int i=0;
-        queryString = "select IDPrzedmiotu, Nazwa from Przedmioty";
-        rs = statement.executeQuery(queryString);
-//        for(i=0;i<tabelaUczen.getRowCount();i++) {
-//            tabelaUczen.getModel().setValueAt(null, i, columny);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+1);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+2);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+3);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+4);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+5);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+6);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+7);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+8);
-//            tabelaUczen.getModel().setValueAt(null, i, columny+9);
-//            
-//            
-//        }
-        i=0;
-        while (rs.next()) {
-            tabelaUczen.getModel().setValueAt(rs.getString("Nazwa"), i, columny-1);
-           
-                            Statement statement2 =db.conn.createStatement();
-                            //System.out.println("id= "+ rs.getString("ID")+"IDP="+  (wybierzPrzedmiot.getSelectedIndex()+1) );
-                            String queryString2 = "select Ocena from Oceny where IDUczen="+idUcznia+" and IDPrzedmiot="+rs.getString("IDPrzedmiotu");
-                            ResultSet rs2 = statement2.executeQuery(queryString2);
-                            int j=0;
-                            while (rs2.next()) {
-                                tabelaUczen.getModel().setValueAt(rs2.getString("Ocena"), i, columny+j);
-                                j++;
-                             }
-        i++;
-        }
-        
-        
+        NazwaLabel3.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+
     }catch(Exception e){
             e.printStackTrace();
      }
@@ -94,6 +57,12 @@ public void odswiez(){
         NazwaLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        NieobecnosciWindow = new javax.swing.JFrame();
+        NazwaLabel3 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        NieobecnosciArea = new javax.swing.JTextArea();
         NazwaUcznia = new javax.swing.JLabel();
         NieobecnosciButton = new javax.swing.JButton();
         OcenyButton = new javax.swing.JButton();
@@ -171,12 +140,68 @@ public void odswiez(){
                 .addGap(36, 36, 36))
         );
 
+        NieobecnosciWindow.setSize(new java.awt.Dimension(450, 260));
+
+        NazwaLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        NazwaLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("Uczeń:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setText("Nieobecność");
+
+        jScrollPane2.setToolTipText("");
+
+        NieobecnosciArea.setColumns(20);
+        NieobecnosciArea.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        NieobecnosciArea.setLineWrap(true);
+        NieobecnosciArea.setRows(5);
+        NieobecnosciArea.setText("\n");
+        jScrollPane2.setViewportView(NieobecnosciArea);
+
+        javax.swing.GroupLayout NieobecnosciWindowLayout = new javax.swing.GroupLayout(NieobecnosciWindow.getContentPane());
+        NieobecnosciWindow.getContentPane().setLayout(NieobecnosciWindowLayout);
+        NieobecnosciWindowLayout.setHorizontalGroup(
+            NieobecnosciWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NieobecnosciWindowLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NazwaLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(NieobecnosciWindowLayout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(NieobecnosciWindowLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        NieobecnosciWindowLayout.setVerticalGroup(
+            NieobecnosciWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NieobecnosciWindowLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(NieobecnosciWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(NazwaLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         NazwaUcznia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         NazwaUcznia.setText("Panel Rodzica");
 
         NieobecnosciButton.setText("Nieobecności");
+        NieobecnosciButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NieobecnosciButtonActionPerformed(evt);
+            }
+        });
 
         OcenyButton.setText("Oceny");
         OcenyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -225,8 +250,58 @@ public void odswiez(){
     private void OcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OcenyButtonActionPerformed
         // TODO add your handling code here:
         OcenyWindow.setVisible(true);
+             try{
+        statement =db.conn.createStatement();
+        queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
+        rs = statement.executeQuery(queryString);
+        rs.next();
+        NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+        NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
         
+        statement =db.conn.createStatement();
+        int i=0;
+        queryString = "select IDPrzedmiotu, Nazwa from Przedmioty";
+        rs = statement.executeQuery(queryString);
+        i=0;
+        while (rs.next()) {
+            tabelaUczen.getModel().setValueAt(rs.getString("Nazwa"), i, columny-1);
+           
+                            Statement statement2 =db.conn.createStatement();
+                            String queryString2 = "select Ocena from Oceny where IDUczen="+idUcznia+" and IDPrzedmiot="+rs.getString("IDPrzedmiotu");
+                            ResultSet rs2 = statement2.executeQuery(queryString2);
+                            int j=0;
+                            while (rs2.next()) {
+                                tabelaUczen.getModel().setValueAt(rs2.getString("Ocena"), i, columny+j);
+                                j++;
+                             }
+        i++;
+        }
+        
+        
+    }catch(Exception e){
+            e.printStackTrace();
+     }
     }//GEN-LAST:event_OcenyButtonActionPerformed
+
+    private void NieobecnosciButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NieobecnosciButtonActionPerformed
+        // TODO add your handling code here:
+        String daty="";
+        NieobecnosciWindow.setVisible(true);
+          try{
+           
+                statement =db.conn.createStatement();
+                 queryString = "select Nieobecnosc from Obecnosc where IDUczen="+idUcznia;
+                 rs = statement.executeQuery(queryString);
+                for(int i=0;rs.next();i++ ){
+                    daty=daty+rs.getString("Nieobecnosc")+" | ";
+                }
+                NieobecnosciArea.setText(daty);
+                daty="";
+                  
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_NieobecnosciButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,13 +341,19 @@ public void odswiez(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel NazwaLabel;
     private javax.swing.JLabel NazwaLabel2;
+    private javax.swing.JLabel NazwaLabel3;
     private javax.swing.JLabel NazwaUcznia;
+    private javax.swing.JTextArea NieobecnosciArea;
     private javax.swing.JButton NieobecnosciButton;
+    private javax.swing.JFrame NieobecnosciWindow;
     private javax.swing.JButton OcenyButton;
     private javax.swing.JFrame OcenyWindow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabelaUczen;
     // End of variables declaration//GEN-END:variables
 }

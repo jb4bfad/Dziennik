@@ -267,7 +267,7 @@
                   <EmptySpace pref="64" max="32767" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="158" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="ZapiszNieobecnoscButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="ZapiszNieobecnoscButton" min="-2" pref="23" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="DodajText3" min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
@@ -322,7 +322,7 @@
     <Container class="javax.swing.JFrame" name="NieobecnosciWindow">
       <Properties>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[550, 300]"/>
+          <Dimension value="[800, 300]"/>
         </Property>
       </Properties>
 
@@ -332,7 +332,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane4" alignment="1" pref="503" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" alignment="1" pref="790" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -388,7 +388,7 @@
                 <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="8">
-                    <Column editable="false" title="ID Ucznia" type="java.lang.Integer"/>
+                    <Column editable="false" title="ID" type="java.lang.Integer"/>
                     <Column editable="false" title="Imie" type="java.lang.String"/>
                     <Column editable="false" title="Nazwisko" type="java.lang.String"/>
                     <Column editable="true" title="Data" type="java.lang.String"/>

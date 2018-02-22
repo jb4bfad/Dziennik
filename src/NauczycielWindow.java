@@ -12,17 +12,17 @@ import java.sql.Statement;
  *
  * @author Janusz
  */
-public class NauczycielWindow extends javax.swing.JFrame {
+public class NauczycielWindow extends javax.swing.JFrame  {
+  
 LogWindow.DB db;
 String queryString;
 Statement statement;
-
 ResultSet rs ;
 int columny=2;
 boolean isCheck=true;
+
+
 public void odswiez(){
-    
-    
     try{
         statement =db.conn.createStatement();
         int i=0;
@@ -60,9 +60,52 @@ public void odswiez(){
         
     }catch(Exception e){
             e.printStackTrace();
-     }  
+     }
+    String daty="";
+          try{
+            statement =db.conn.createStatement();
+            queryString = "select ID, Imie, Nazwisko from Uczniowie";
+            rs = statement.executeQuery(queryString);            
+            for(int i=0;rs.next();i++ ){
+                TabelaNieobecnosc.getModel().setValueAt(rs.getString("ID"), i, 0);
+                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Imie"), i, 1);
+                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Nazwisko"), i, 2);
+                Statement statement2 =db.conn.createStatement();
+                String queryString2 = "select Nieobecnosc from Obecnosc where IDUczen="+rs.getString("ID");
+                ResultSet rs2 = statement2.executeQuery(queryString2);
+                for(int j=0;rs2.next();j++ ){
+                    daty=daty+rs2.getString("Nieobecnosc")+" | ";
+                }
+                TabelaNieobecnosc.getModel().setValueAt(daty, i, 3);
+                daty="";
+            }      
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
-
+//public void odswiezObecnosci(){
+//    String daty="";
+//          try{
+//            statement =db.conn.createStatement();
+//            queryString = "select ID, Imie, Nazwisko from Uczniowie";
+//            rs = statement.executeQuery(queryString);            
+//            for(int i=0;rs.next();i++ ){
+//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("ID"), i, 0);
+//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Imie"), i, 1);
+//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Nazwisko"), i, 2);
+//                Statement statement2 =db.conn.createStatement();
+//                String queryString2 = "select Nieobecnosc from Obecnosc where IDUczen="+rs.getString("ID");
+//                ResultSet rs2 = statement2.executeQuery(queryString2);
+//                for(int j=0;rs2.next();j++ ){
+//                    daty=daty+rs2.getString("Nieobecnosc")+" | ";
+//                }
+//                TabelaNieobecnosc.getModel().setValueAt(daty, i, 3);
+//                daty="";
+//            }      
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
     /**
      * Creates new form NauczycielWindow
      */
@@ -372,12 +415,12 @@ public void odswiez(){
                 .addContainerGap(64, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(ZapiszNieobecnoscButton)
+                .addComponent(ZapiszNieobecnoscButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DodajText3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        NieobecnosciWindow.setSize(new java.awt.Dimension(550, 300));
+        NieobecnosciWindow.setSize(new java.awt.Dimension(800, 300));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Nieobecność na zajęciach:");
@@ -402,7 +445,7 @@ public void odswiez(){
                 {null, null, null, null}
             },
             new String [] {
-                "ID Ucznia", "Imie", "Nazwisko", "Data"
+                "ID", "Imie", "Nazwisko", "Data"
             }
         ) {
             Class[] types = new Class [] {
@@ -431,7 +474,7 @@ public void odswiez(){
             .addGroup(NieobecnosciWindowLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(NieobecnosciWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
                     .addGroup(NieobecnosciWindowLayout.createSequentialGroup()
                         .addGroup(NieobecnosciWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -511,30 +554,13 @@ public void odswiez(){
 
     private void obecnosciButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obecnosciButtonActionPerformed
         // TODO add your handling code here:
-        String daty="";
         TabelaNieobecnosc.getColumnModel().getColumn(0).setPreferredWidth(30);
-        TabelaNieobecnosc.getColumnModel().getColumn(3).setPreferredWidth(300);
+        TabelaNieobecnosc.getColumnModel().getColumn(1).setPreferredWidth(110);
+        TabelaNieobecnosc.getColumnModel().getColumn(2).setPreferredWidth(110);
+        TabelaNieobecnosc.getColumnModel().getColumn(3).setPreferredWidth(600);
         NieobecnosciWindow.setVisible(true);
-          try{
-            statement =db.conn.createStatement();
-            queryString = "select ID, Imie, Nazwisko from Uczniowie";
-            rs = statement.executeQuery(queryString);            
-            for(int i=0;rs.next();i++ ){
-                TabelaNieobecnosc.getModel().setValueAt(rs.getString("ID"), i, 0);
-                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Imie"), i, 1);
-                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Nazwisko"), i, 2);
-                Statement statement2 =db.conn.createStatement();
-                String queryString2 = "select Nieobecnosc from Obecnosc where IDUczen="+rs.getString("ID");
-                ResultSet rs2 = statement2.executeQuery(queryString2);
-                for(int j=0;rs2.next();j++ ){
-                    daty=daty+rs2.getString("Nieobecnosc")+" | ";
-                }
-                TabelaNieobecnosc.getModel().setValueAt(daty, i, 3);
-                daty="";
-            }      
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+//        this.odswiezObecnosci(); 
+        this.odswiez();
     }//GEN-LAST:event_obecnosciButtonActionPerformed
 
     private void ocenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ocenyButtonActionPerformed
@@ -544,6 +570,7 @@ public void odswiez(){
         tabelaNauczyciel.getColumnModel().getColumn(2).setPreferredWidth(110);
         tabelaNauczyciel.getColumnModel().getColumn(3).setPreferredWidth(110);
         OcenyWindow.setVisible(true);
+        
     }//GEN-LAST:event_ocenyButtonActionPerformed
 
     private void OdswiezOcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OdswiezOcenyButtonActionPerformed
@@ -587,34 +614,24 @@ public void odswiez(){
             Statement statement1 =db.conn.createStatement(); 
             i=0;
             while (rs2.next()) {
-                //System.out.println("#1\n [" + TabelaDodajOceny.getModel().getValueAt(i, 3)+"] i=("+i);
-                //if((Integer.parseInt(TabelaDodajOceny.getModel().getValueAt(i, 3).toString())>=1) && (Integer.parseInt(TabelaDodajOceny.getModel().getValueAt(i, 3).toString())<=6)){
-                if( TabelaDodajOceny.getModel().getValueAt(i, 3)!=null ){
-                    queryString="SELECT MAX(ID) ID FROM Oceny";
-                    ResultSet rs1 = statement1.executeQuery(queryString);
-                    rs1.next();
+               if( TabelaDodajOceny.getModel().getValueAt(i, 3)!=null ){
+                queryString="SELECT MAX(ID) ID FROM Oceny";
+                ResultSet rs1 = statement1.executeQuery(queryString);
+                rs1.next();
 
-                     int a=0;
-                     a= Integer.parseInt(rs1.getString("ID"))+1;
-                     queryString = "INSERT INTO Oceny (ID, IDUczen, IDPrzedmiot, Ocena) VALUES ("
-                             +a+","
-                             + TabelaDodajOceny.getModel().getValueAt(i, 0)+","
-                             + (wybierzPrzedmiot.getSelectedIndex()+1)+",'"
-                             + TabelaDodajOceny.getModel().getValueAt(i, 3)+"')";
-                     db.statement.executeUpdate(queryString);
-                     TabelaDodajOceny.getModel().setValueAt(null, i, 3);
-                     
-                     i++;
-                     }else{
-                        //DodajText2.setText("Nie wprowadzono wartości");
-                        i++;
-                        continue;
-                     }
-                
-               }
-            DodajOcenyWindow.dispose();
-             
-       
+                int a=0;
+                a= Integer.parseInt(rs1.getString("ID"))+1;
+                NauczycielOdswiezWatek now = new NauczycielOdswiezWatek(a, Integer.parseInt(TabelaDodajOceny.getModel().getValueAt(i, 0).toString()), (wybierzPrzedmiot.getSelectedIndex()+1), TabelaDodajOceny.getModel().getValueAt(i, 3).toString());
+                now.db = db;
+                now.start();
+                TabelaDodajOceny.getModel().setValueAt(null, i, 3);
+                i++;
+                }else{
+                    i++;
+                    continue;
+                } 
+            }
+        DodajOcenyWindow.dispose();
         }catch(Exception e){
             e.printStackTrace();  
         }        
@@ -631,10 +648,10 @@ public void odswiez(){
                 int j=0;
                 while (rs2.next()) {
                     if(tabelaNauczyciel.getModel().getValueAt(i, 1)!=null ){
-                            queryString = "UPDATE Oceny SET Ocena = '"
-                                    +tabelaNauczyciel.getModel().getValueAt(i,columny+2+j)+"' WHERE ID="
-                                    +rs2.getString("ID");
-                            db.statement.executeUpdate(queryString);
+                        queryString = "UPDATE Oceny SET Ocena = '"
+                                +tabelaNauczyciel.getModel().getValueAt(i,columny+2+j)+"' WHERE ID="
+                                +rs2.getString("ID");
+                        db.statement.executeUpdate(queryString);
                     }   
                 j++;
                 }
@@ -705,7 +722,6 @@ public void odswiez(){
                      TabelaDodaNieobecnosc.getModel().setValueAt(null, i, 3);
                      i++;
                      }else{
-                        //DodajText2.setText("Nie wprowadzono wartości");
                         i++;
                         continue;
                      }
@@ -716,6 +732,7 @@ public void odswiez(){
             e.printStackTrace();
         }   
         this.odswiez();
+        //this.odswiezObecnosci();  
     }//GEN-LAST:event_ZapiszNieobecnoscButtonActionPerformed
 
     private void DodajNieobenoscButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DodajNieobenoscButtonActionPerformed
