@@ -2,28 +2,32 @@
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/**
+*
+* @author Janusz Bonisławski
+*/
 
 /**
- *
- * @author Janusz
- */
-public class NauczycielOdswiezWatek extends Thread{
+* Klasa Wątek dodaje oceny do bazy danych
+*/
+public class DodawanieWatek extends Thread{
     LogWindow.DB db;
     String queryString;
     Statement statement;
     int id,ucz,prz;
     String oc;
-    NauczycielOdswiezWatek(int a, int b, int c, String s ){
+/**
+* Konstruktor nadający wartości potrzebne do dodania oceny
+*/
+    DodawanieWatek(int a, int b, int c, String s ){
         id=a;
         ucz=b;
         prz=c;
         oc=s;
     }
+/**
+* Metoda dodająca oceny
+*/
     public void run() {
         try{
                      queryString = "INSERT INTO Oceny (ID, IDUczen, IDPrzedmiot, Ocena) VALUES ("

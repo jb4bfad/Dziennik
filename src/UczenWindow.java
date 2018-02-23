@@ -2,16 +2,14 @@
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Janusz Bonisławski
  */
 
 /**
- *
- * @author Janusz
- */
+* Klasa rodzica do wyświtlania danych
+*/
 public class UczenWindow extends javax.swing.JFrame {
     LogWindow.DB db;
     String queryString;
@@ -20,16 +18,19 @@ public class UczenWindow extends javax.swing.JFrame {
     int columny=1, idUcznia;
     boolean isCheck=true;
     
+/**
+* Metoda do wyświtlania nazwy ucznia
+*/
     
 public void odswiez(){
-         try{
-        statement =db.conn.createStatement();
-        queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
-        rs = statement.executeQuery(queryString);
-        rs.next();
-        NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-        NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-        NazwaLabel3.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+        try{
+            statement =db.conn.createStatement();
+            queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
+            rs = statement.executeQuery(queryString);
+            rs.next();
+            NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+            NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+            NazwaLabel3.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
 
     }catch(Exception e){
             e.printStackTrace();
@@ -246,18 +247,19 @@ public void odswiez(){
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+* Metoda wyświetlająca oceny zalogowanego ucznia z poszczególnych przedmiotów
+*/
     private void OcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OcenyButtonActionPerformed
         // TODO add your handling code here:
         OcenyWindow.setVisible(true);
-             try{
+    try{
         statement =db.conn.createStatement();
         queryString = "select ID, Imie, Nazwisko from Uczniowie where ID="+idUcznia;
         rs = statement.executeQuery(queryString);
         rs.next();
         NazwaLabel.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
         NazwaLabel2.setText(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-        
         statement =db.conn.createStatement();
         int i=0;
         queryString = "select IDPrzedmiotu, Nazwa from Przedmioty";
@@ -265,39 +267,36 @@ public void odswiez(){
         i=0;
         while (rs.next()) {
             tabelaUczen.getModel().setValueAt(rs.getString("Nazwa"), i, columny-1);
-           
-                            Statement statement2 =db.conn.createStatement();
-                            String queryString2 = "select Ocena from Oceny where IDUczen="+idUcznia+" and IDPrzedmiot="+rs.getString("IDPrzedmiotu");
-                            ResultSet rs2 = statement2.executeQuery(queryString2);
-                            int j=0;
-                            while (rs2.next()) {
-                                tabelaUczen.getModel().setValueAt(rs2.getString("Ocena"), i, columny+j);
-                                j++;
-                             }
+            Statement statement2 =db.conn.createStatement();
+            String queryString2 = "select Ocena from Oceny where IDUczen="+idUcznia+" and IDPrzedmiot="+rs.getString("IDPrzedmiotu");
+            ResultSet rs2 = statement2.executeQuery(queryString2);
+            int j=0;
+            while (rs2.next()) {
+                tabelaUczen.getModel().setValueAt(rs2.getString("Ocena"), i, columny+j);
+                j++;
+             }
         i++;
         }
-        
-        
     }catch(Exception e){
             e.printStackTrace();
      }
     }//GEN-LAST:event_OcenyButtonActionPerformed
-
+/**
+* Metoda wyświetlająca nieobecności zalogowanego ucznia 
+*/
     private void NieobecnosciButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NieobecnosciButtonActionPerformed
         // TODO add your handling code here:
         String daty="";
         NieobecnosciWindow.setVisible(true);
-          try{
-           
-                statement =db.conn.createStatement();
-                 queryString = "select Nieobecnosc from Obecnosc where IDUczen="+idUcznia;
-                 rs = statement.executeQuery(queryString);
-                for(int i=0;rs.next();i++ ){
-                    daty=daty+rs.getString("Nieobecnosc")+" | ";
-                }
-                NieobecnosciArea.setText(daty);
-                daty="";
-                  
+        try{
+            statement =db.conn.createStatement();
+             queryString = "select Nieobecnosc from Obecnosc where IDUczen="+idUcznia;
+             rs = statement.executeQuery(queryString);
+            for(int i=0;rs.next();i++ ){
+                daty=daty+rs.getString("Nieobecnosc")+" | ";
+            }
+            NieobecnosciArea.setText(daty);
+            daty="";                 
         }catch(Exception e){
             e.printStackTrace();
         }

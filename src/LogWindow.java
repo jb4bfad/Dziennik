@@ -5,19 +5,23 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JTable;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  *
- * @author Janusz
+ * @author Janusz Bonisławski
+ */
+
+/**
+ * Klasa służąca do logowania Nauczyciel lub Rodzic
  */
 public class LogWindow extends javax.swing.JFrame {
     boolean isError=false;
     int idUcznia;
+/**
+ * Klasa służąca do połączenia z bazą danych
+ * nawiązuje połączenie z bazą danych nastepnie je przekazuje
+ */
 class DB{
     Connection conn ;
 public DB() {}
@@ -29,12 +33,10 @@ public DB() {}
      try
      {
          isError=false;
-             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-             conn = DriverManager.getConnection(db_connect_string, db_userid, db_password);
-             System.out.println("connected");
-             statement = conn.createStatement();
-
-
+         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+         conn = DriverManager.getConnection(db_connect_string, db_userid, db_password);
+         System.out.println("connected");
+         statement = conn.createStatement();
      }
      catch (Exception e)
      {
@@ -215,7 +217,10 @@ public DB() {}
     private void LogNauczycielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogNauczycielActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LogNauczycielActionPerformed
-
+/**
+ * Metoda logowania do panelu Nauczyciela
+ * za pomocą obiektu DB przekazuje wartośći logowania do konta Nauczyciel w bazie danych 
+ */
     private void LogNauczycielButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogNauczycielButtonActionPerformed
         // TODO add your handling code here:
         DB db = new DB();
@@ -235,7 +240,10 @@ public DB() {}
     private void LogUczniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogUczniaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LogUczniaActionPerformed
-
+/**
+ * Metoda logowania do panelu Uczen
+ * za pomocą obiektu DB przekazuje wartośći logowania do konta Nauczyciel w bazie danych 
+ */
     private void LogUczenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogUczenButtonActionPerformed
         // TODO add your handling code here:
         DB db = new DB();
@@ -249,8 +257,6 @@ public DB() {}
             uw.db = db;
             uw.idUcznia=Integer.parseInt(LogUcznia.getText());
             uw.odswiez();
-            //uw.setidUcznia(Integer.parseInt(LogUcznia.getText()));
-            
             this.dispose();
         }
     }//GEN-LAST:event_LogUczenButtonActionPerformed

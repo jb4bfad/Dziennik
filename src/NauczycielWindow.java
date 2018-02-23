@@ -2,16 +2,13 @@
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
- * @author Janusz
+ * @author Janusz Bonisławski
  */
+    /**
+    * Klasa zawierająca narzędzia dla nauczyciela
+    */
 public class NauczycielWindow extends javax.swing.JFrame  {
   
 LogWindow.DB db;
@@ -21,7 +18,9 @@ ResultSet rs ;
 int columny=2;
 boolean isCheck=true;
 
-
+    /**
+    * Metoda odświeża dane w Tabeli ocen i nieobecności  
+    */
 public void odswiez(){
     try{
         statement =db.conn.createStatement();
@@ -83,29 +82,7 @@ public void odswiez(){
             e.printStackTrace();
         }
     }
-//public void odswiezObecnosci(){
-//    String daty="";
-//          try{
-//            statement =db.conn.createStatement();
-//            queryString = "select ID, Imie, Nazwisko from Uczniowie";
-//            rs = statement.executeQuery(queryString);            
-//            for(int i=0;rs.next();i++ ){
-//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("ID"), i, 0);
-//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Imie"), i, 1);
-//                TabelaNieobecnosc.getModel().setValueAt(rs.getString("Nazwisko"), i, 2);
-//                Statement statement2 =db.conn.createStatement();
-//                String queryString2 = "select Nieobecnosc from Obecnosc where IDUczen="+rs.getString("ID");
-//                ResultSet rs2 = statement2.executeQuery(queryString2);
-//                for(int j=0;rs2.next();j++ ){
-//                    daty=daty+rs2.getString("Nieobecnosc")+" | ";
-//                }
-//                TabelaNieobecnosc.getModel().setValueAt(daty, i, 3);
-//                daty="";
-//            }      
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+
     /**
      * Creates new form NauczycielWindow
      */
@@ -545,13 +522,17 @@ public void odswiez(){
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+    * Metoda do wyboru z przedmiotu z listy rozwijanej 
+    */
     private void wybierzPrzedmiotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wybierzPrzedmiotActionPerformed
         // TODO add your handling code here:
-        this.odswiez();
-                //System.out.println(wybierzPrzedmiot.getSelectedIndex()+1 );
+        this.odswiez();       
     }//GEN-LAST:event_wybierzPrzedmiotActionPerformed
-
+    /**
+    * Metoda uruchamiająca okno Nieobecności
+    * wraz z nadaniem szerokosci poszczególnym kolumnom
+    */
     private void obecnosciButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obecnosciButtonActionPerformed
         // TODO add your handling code here:
         TabelaNieobecnosc.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -559,10 +540,12 @@ public void odswiez(){
         TabelaNieobecnosc.getColumnModel().getColumn(2).setPreferredWidth(110);
         TabelaNieobecnosc.getColumnModel().getColumn(3).setPreferredWidth(600);
         NieobecnosciWindow.setVisible(true);
-//        this.odswiezObecnosci(); 
         this.odswiez();
     }//GEN-LAST:event_obecnosciButtonActionPerformed
-
+    /**
+    * Metoda uruchamiająca okno Oceny
+    * wraz z nadaniem szerokosci poszczególnym kolumnom
+    */
     private void ocenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ocenyButtonActionPerformed
         // TODO add your handling code here:
         tabelaNauczyciel.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -572,15 +555,19 @@ public void odswiez(){
         OcenyWindow.setVisible(true);
         
     }//GEN-LAST:event_ocenyButtonActionPerformed
-
+    /**
+    * Metoda przycik odswież
+    */
     private void OdswiezOcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OdswiezOcenyButtonActionPerformed
         // TODO add your handling code here:
         this.odswiez();
     }//GEN-LAST:event_OdswiezOcenyButtonActionPerformed
-
+    /**
+    * Metoda otwierająca okno DodajOceny
+    * oraz uzupełnia komórki tabeli
+    */
     private void DodajOceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DodajOceneButtonActionPerformed
         // TODO add your handling code here:
-        
         DodajOcenyWindow.setVisible(true);
          isCheck=true;
        try{
@@ -588,13 +575,11 @@ public void odswiez(){
             int i=0;
             queryString = "select ID, Imie, Nazwisko from Uczniowie";
             rs = statement.executeQuery(queryString);
-
             i=0;
             while (rs.next()) {
                 TabelaDodajOceny.getModel().setValueAt(rs.getString("ID"), i, 0);
                 TabelaDodajOceny.getModel().setValueAt(rs.getString("Imie"), i, 1);
                 TabelaDodajOceny.getModel().setValueAt(rs.getString("Nazwisko"), i, 2);
-
             i++;
         }
         
@@ -602,7 +587,11 @@ public void odswiez(){
             e.printStackTrace();
         }
     }//GEN-LAST:event_DodajOceneButtonActionPerformed
-
+    /**
+    * Metoda zapisująca nową ocenę
+    * za pomocą obiektu klasy DodawanieWatek
+    * aregumenty są przekazywane za pomocą konstruktora
+    */
     private void ZapiszOceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZapiszOceneButtonActionPerformed
         // TODO add your handling code here:
         DodajText2.setText("Poszę podać wartość oceny w skali od 1 do 6");
@@ -618,10 +607,7 @@ public void odswiez(){
                 queryString="SELECT MAX(ID) ID FROM Oceny";
                 ResultSet rs1 = statement1.executeQuery(queryString);
                 rs1.next();
-
-                int a=0;
-                a= Integer.parseInt(rs1.getString("ID"))+1;
-                NauczycielOdswiezWatek now = new NauczycielOdswiezWatek(a, Integer.parseInt(TabelaDodajOceny.getModel().getValueAt(i, 0).toString()), (wybierzPrzedmiot.getSelectedIndex()+1), TabelaDodajOceny.getModel().getValueAt(i, 3).toString());
+                DodawanieWatek now = new DodawanieWatek(Integer.parseInt(rs1.getString("ID"))+1, Integer.parseInt(TabelaDodajOceny.getModel().getValueAt(i, 0).toString()), (wybierzPrzedmiot.getSelectedIndex()+1), TabelaDodajOceny.getModel().getValueAt(i, 3).toString());
                 now.db = db;
                 now.start();
                 TabelaDodajOceny.getModel().setValueAt(null, i, 3);
@@ -637,14 +623,17 @@ public void odswiez(){
         }        
         this.odswiez(); 
     }//GEN-LAST:event_ZapiszOceneButtonActionPerformed
-
+    /**
+    * Metoda edytująca oceny
+    * przed zmianą sprawdza czy kolumna "check" jest zaznaczona
+    */
     private void EdytujOcenyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EdytujOcenyButtonActionPerformed
        //  TODO add your handling code here:
     try{
           Statement statement2 =db.conn.createStatement(); 
           for(int i=0; i<tabelaNauczyciel.getRowCount();i++){
-            String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
-            ResultSet rs2 = statement2.executeQuery(queryString2);
+          String queryString2 = "select ID, Ocena from Oceny where IDUczen="+tabelaNauczyciel.getModel().getValueAt(i, 0)+" and IDPrzedmiot="+(wybierzPrzedmiot.getSelectedIndex()+1);
+          ResultSet rs2 = statement2.executeQuery(queryString2);
                 int j=0;
                 while (rs2.next()) {
                     if(tabelaNauczyciel.getModel().getValueAt(i, 1)!=null ){
@@ -666,7 +655,10 @@ public void odswiez(){
     private void DodajOcenyWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DodajOcenyWindowMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_DodajOcenyWindowMouseClicked
-
+    /**
+    * Metoda usuwająca oceny
+    * sprawdza czy komórka z oceną jest pusta
+    */
     private void UsunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsunButtonActionPerformed
         // TODO add your handling code here:
         try{
@@ -696,7 +688,9 @@ public void odswiez(){
     private void DodajText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DodajText3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DodajText3ActionPerformed
-
+    /**
+    * Metoda zapisująca nieobecność do bazy danych
+    */
     private void ZapiszNieobecnoscButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZapiszNieobecnoscButtonActionPerformed
         // TODO add your handling code here:
         DodajText3.setText("Poszę podać datę w formacie dd/mm/rrrr");
@@ -734,7 +728,10 @@ public void odswiez(){
         this.odswiez();
         //this.odswiezObecnosci();  
     }//GEN-LAST:event_ZapiszNieobecnoscButtonActionPerformed
-
+    /**
+    * Metoda otwierająca okno Dodawania Nieobecności
+    * wraz z wypełnieniem wierszy tabeli
+    */
     private void DodajNieobenoscButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DodajNieobenoscButtonActionPerformed
         // TODO add your handling code here:
         DodajNieobecnoscWindow.setVisible(true);
